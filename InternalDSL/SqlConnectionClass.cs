@@ -16,16 +16,23 @@ namespace InternalDSL
                     $"WHERE {where.Item1} = {where.Item2};";
         }
 
-        public static void CreateCommand(string queryString,
-        string connectionString)
+        public static string CreateCommand(string queryString)
         {
+            string connectionString = @"Server=(localdb)\MyInstance;Initial Catalog = Local;Integrated Security=true;";
             using (SqlConnection connection = new SqlConnection(
                        connectionString))
             {
                 SqlCommand command = new SqlCommand(queryString, connection);
                 command.Connection.Open();
-                command.ExecuteNonQuery();
+                var result = command.ExecuteNonQuery();
+                var r2 = command.ExecuteReader();                
+                
+                while (r2.Read())
+                {
+                    Console.WriteLine(r2.GetString(0));
+                }
             }
+            return "Error";
         }
     }
 }
