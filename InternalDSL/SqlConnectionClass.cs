@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Linq;
 using System.Text;
 
 namespace InternalDSL
@@ -29,7 +30,12 @@ namespace InternalDSL
                 
                 while (r2.Read())
                 {
-                    Console.WriteLine(r2.GetString(0));
+                    string[] output = new string[r2.FieldCount];
+                    for (int i = 0; i < r2.FieldCount; i++)
+                    {
+                        output[i]= r2.GetValue(i).ToString();
+                    }
+                        Console.WriteLine(string.Join(",",output));
                 }
             }
             return "Error";

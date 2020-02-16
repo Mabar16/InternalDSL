@@ -14,8 +14,9 @@ namespace InternalDSL
             return this;
         }
 
-        public SqlBuilderImpl Select(string text)
+        public SqlBuilderImpl Select(params string[] args)
         {
+            string text = string.Join(",",args);
             string x = $"SELECT {text} ";
             query.Append(x);
             return this;
