@@ -13,7 +13,7 @@ namespace InternalDSL
 
             var selectQuery = builder.
                         Select("students.name", "course", "grade", "age", "major").
-                        //Distinct().
+                        Distinct().
                         From("students", "grades").
                         Where(("students.name","grades.name")).
                         OrderBy("students.name").
@@ -24,13 +24,13 @@ namespace InternalDSL
 
             var updateQuery = builder.
                         Update("students").
-                        Set(("age", "23")).
+                        Set(("age", "99")).
                         Where(("name","markus")).
                         FinishQuery();
 
             selectQuery = builder.
                         Select("students.name", "course", "grade", "age", "major").
-                        //Distinct().
+                        Distinct().
                         From("students", "grades").
                         Where(("students.name", "grades.name")).
                         OrderBy("major").
