@@ -6,7 +6,7 @@ namespace InternalDSL.Sql
 {
     public class SQLWhere
     {
-        public string Content { get; set; }
+        private string content;
 
         public SQLWhere(params (string, string)[] args)
         {
@@ -29,8 +29,12 @@ namespace InternalDSL.Sql
                 contentBuilder.Remove(contentBuilder.Length-5, 4);
             }
 
-            Content = contentBuilder.ToString();
+            content = contentBuilder.ToString();
         }
-    
+
+        public override string ToString()
+        {
+            return content;
+        }
     }
 }

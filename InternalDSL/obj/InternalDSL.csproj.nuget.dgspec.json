@@ -38,6 +38,10 @@
       "frameworks": {
         "netcoreapp3.1": {
           "dependencies": {
+            "Npgsql": {
+              "target": "Package",
+              "version": "[4.1.3, )"
+            },
             "System.Data.SqlClient": {
               "target": "Package",
               "version": "[4.8.0, )"

@@ -16,3 +16,4 @@ D:\Developer\C#\InternalDSL\InternalDSL\bin\Debug\netcoreapp3.1\runtimes\win\lib
 D:\Developer\C#\InternalDSL\InternalDSL\obj\Debug\netcoreapp3.1\InternalDSL.csproj.CopyComplete
 D:\Developer\C#\InternalDSL\InternalDSL\obj\Debug\netcoreapp3.1\InternalDSL.dll
 D:\Developer\C#\InternalDSL\InternalDSL\obj\Debug\netcoreapp3.1\InternalDSL.pdb
+D:\Developer\C#\InternalDSL\InternalDSL\bin\Debug\netcoreapp3.1\Npgsql.dll

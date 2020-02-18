@@ -7,23 +7,17 @@ namespace InternalDSL
     {
         static void Main(string[] args)
         {
-            /* query = new SQLQueryBuilder().MakeSelect().
-                        Select("name").
+            string connectionString = @"Server=(localdb)\MyInstance;Initial Catalog = Local;Integrated Security=true;";
+
+            var builder = new SQLQueryBuilder();
+
+            var query = builder.MakeSelect().
+                        Select("name","major").
                         From("students").
                         Where(("age","23")).
-                        FinishQuery();
-                        */
+                        FinishQuery(); 
 
-            var xx = new SqlBuilderImpl().Build().
-                Select("Name").
-                From("students as A", "Teachers as B").
-                WhereIs("age", "23").
-                //AndWhereLike("major","Engineering").
-                CreateQuery();
-
-            Console.WriteLine("hi");
-            SqlConnectionClass.PostgresCreateCommand("");
-            //SqlConnectionClass.CreateCommand(xx);*/
+            SqlConnectionClass.CreateCommand(query, connectionString);
         }
     }
 }

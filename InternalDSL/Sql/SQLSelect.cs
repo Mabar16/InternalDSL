@@ -1,20 +1,26 @@
 ﻿using System;
+using System.Collections.Generic;
+
 namespace InternalDSL.Sql
 {
     public class SQLSelect : ISQLQuery
     {
+        private List<string> columns;
         private SQLFrom fromClause;
         private SQLWhere whereClause;
 
         public SQLSelect() 
         {
+            columns = new List<string>();
         }
 
         public SQLSelect Select(params string[] args)
         {
-            string text = string.Join(",", args);
-            string x = $"SELECT {text} ";
-            //query.Append(x);
+            if (args.Length == 0)
+                columns.Add("*");
+            else 
+                Array.ForEach(args, column => columns.Add(column));
+
             return this;
         }
 
@@ -26,12 +32,16 @@ namespace InternalDSL.Sql
 
         public SQLSelect Where(params (string, string)[] args)
         {
+            whereClause = new SQLWhere(args);
             return this; 
         }
 
         public string FinishQuery()
         {
-            throw new NotImplementedException();
+            string text = string.Join(",", columns);
+            string selecText = $"SELECT {text} ";
+
+            return $"{selecText} {fromClause} {whereClause}";
         }
     }
 }

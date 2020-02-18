@@ -45,12 +45,8 @@ namespace InternalDSL
             Console.WriteLine("done");
         }
 
-        public static string CreateCommand(string queryString)
+        public static string CreateCommand(string queryString, string connectionString)
         {
-            //string connectionString = @"Server=(localdb)\MyInstance;Initial Catalog = Local;Integrated Security=true;";
-            string connectionString = @"User ID=postgress;Password=Mikoto;Host=localhost;
-                                        Port=5435;Database=postgres;Pooling=true;Min Pool Size=0;
-                                        Max Pool Size=100;Connection Lifetime=0;";
             using (SqlConnection connection = new SqlConnection(
                        connectionString))
             {

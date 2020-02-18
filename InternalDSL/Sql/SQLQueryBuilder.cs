@@ -1,7 +1,7 @@
 ﻿using System;
 namespace InternalDSL.Sql
 {
-    public class SQLQueryBuilder
+    public class SQLQueryBuilder :SqlBuilderInterface
     {
         public SQLQueryBuilder()
         {
