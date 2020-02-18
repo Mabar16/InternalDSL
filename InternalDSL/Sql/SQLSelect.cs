@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace InternalDSL.Sql
 {
@@ -7,6 +8,8 @@ namespace InternalDSL.Sql
     {
         private List<string> columns;
         private bool distinct;
+        private string groupBy;
+        private string orderBy;
         private SQLFrom fromClause;
         private SQLWhere whereClause;
         
@@ -50,12 +53,36 @@ namespace InternalDSL.Sql
             return this; 
         }
 
+        public SQLSelect GroupBy(string column)
+        {
+            groupBy = $"GROUP BY {column}";
+            return this;
+        }
+
+        public SQLSelect OrderBy(string column)
+        {
+            orderBy = $"ORDER BY {column}";
+            return this;
+        }
+
         public string FinishQuery()
         {
-            string text = string.Join(",", columns);
-            string selecText = distinct ? $"SELECT DISTINCT {text} " : $"SELECT {text} ";
+            StringBuilder sb = new StringBuilder();
 
-            return $"{selecText} {fromClause} {whereClause}";
+            string text = string.Join(",", columns);
+            string selecText = distinct ? $"SELECT DISTINCT {text}" : $"SELECT {text}";
+
+            sb.Append(selecText+" ");
+            sb.Append(fromClause + " ");
+            if (whereClause != null)
+                sb.Append(whereClause + " ");
+            if (groupBy != null)
+                sb.Append(groupBy + " ");
+            if (orderBy != null)
+                sb.Append(orderBy + " ");
+
+
+            return sb.ToString();
         }
     }
 }

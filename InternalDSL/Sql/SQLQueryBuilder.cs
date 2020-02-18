@@ -8,7 +8,8 @@ namespace InternalDSL.Sql
             
         }
         /// <summary>
-        /// Creates a new instance of SQLSelect, representing a SELECT query
+        /// Creates a new instance of SQLSelect, representing a SELECT query. 
+        /// Prefix column names with their corresponding table name when selecting from multiple tables.
         /// </summary>
         /// <param name="args"></param> Columns to select
         /// <returns></returns>

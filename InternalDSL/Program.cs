@@ -12,13 +12,15 @@ namespace InternalDSL
             var builder = new SQLQueryBuilder();
 
             var selectQuery = builder.
-                        Select("students.name", "course", "grade", "age").Distinct().
+                        Select("students.name", "course", "grade", "age", "major").
+                        //Distinct().
                         From("students", "grades").
                         Where(("students.name","grades.name")).
+                        OrderBy("students.name").
                         FinishQuery();
 
             SqlConnectionClass.ExecuteQuery(selectQuery, connectionString);
-            Console.WriteLine();
+            Console.WriteLine("\r\n^Before, After ->\r\n");
 
             var updateQuery = builder.
                         Update("students").
@@ -27,14 +29,18 @@ namespace InternalDSL
                         FinishQuery();
 
             selectQuery = builder.
-                        Select("students.name", "course", "grade", "age").Distinct().
+                        Select("students.name", "course", "grade", "age", "major").
+                        //Distinct().
                         From("students", "grades").
                         Where(("students.name", "grades.name")).
+                        OrderBy("major").
                         FinishQuery();
 
             SqlConnectionClass.ExecuteQuery(updateQuery, connectionString);
-            Console.WriteLine();
             SqlConnectionClass.ExecuteQuery(selectQuery, connectionString);
+
+            Console.WriteLine("Press any key to exit");
+            Console.ReadKey();
         }
     }
 }
