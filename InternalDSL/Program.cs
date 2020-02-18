@@ -11,13 +11,30 @@ namespace InternalDSL
 
             var builder = new SQLQueryBuilder();
 
-            var query = builder.MakeSelect().
-                        Select("name","major").
-                        From("students").
-                        Where(("age","23")).
-                        FinishQuery(); 
+            var selectQuery = builder.
+                        Select("students.name", "course", "grade", "age").Distinct().
+                        From("students", "grades").
+                        Where(("students.name","grades.name")).
+                        FinishQuery();
 
-            SqlConnectionClass.CreateCommand(query, connectionString);
+            SqlConnectionClass.ExecuteQuery(selectQuery, connectionString);
+            Console.WriteLine();
+
+            var updateQuery = builder.
+                        Update("students").
+                        Set(("age", "23")).
+                        Where(("name","markus")).
+                        FinishQuery();
+
+            selectQuery = builder.
+                        Select("students.name", "course", "grade", "age").Distinct().
+                        From("students", "grades").
+                        Where(("students.name", "grades.name")).
+                        FinishQuery();
+
+            SqlConnectionClass.ExecuteQuery(updateQuery, connectionString);
+            Console.WriteLine();
+            SqlConnectionClass.ExecuteQuery(selectQuery, connectionString);
         }
     }
 }

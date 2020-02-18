@@ -45,7 +45,7 @@ namespace InternalDSL
             Console.WriteLine("done");
         }
 
-        public static string CreateCommand(string queryString, string connectionString)
+        public static string ExecuteQuery(string queryString, string connectionString)
         {
             using (SqlConnection connection = new SqlConnection(
                        connectionString))
