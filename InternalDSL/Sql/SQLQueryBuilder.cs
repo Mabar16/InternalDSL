@@ -5,6 +5,12 @@ namespace InternalDSL.Sql
     {
         public SQLQueryBuilder()
         {
+            
+        }
+
+        public SQLSelect MakeSelect()
+        {
+            return new SQLSelect();
         }
     }
 }

@@ -1,7 +1,8 @@
 ﻿using System;
 namespace InternalDSL.Sql
 {
-    public interface SQLQuery
+    public interface ISQLQuery
     {
+        string FinishQuery();
     }
 }

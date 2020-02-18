@@ -8,6 +8,6 @@ namespace InternalDSL
     public interface SqlBuilderInterface
     {
         SqlBuilderInterface BuildQuery();
-        SqlSelectInterface Select(string text);
+        //SqlSelectInterface Select(string text);
     }
 }

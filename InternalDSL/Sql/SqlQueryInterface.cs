@@ -4,7 +4,7 @@ using System.Text;
 
 namespace InternalDSL.Sql
 {
-    public interface SqlSelectInterface
+    public interface SqlQueryInterface
     {
         SqlBuilderInterface Where(string text);
     }

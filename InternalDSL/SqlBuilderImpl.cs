@@ -22,13 +22,13 @@ namespace InternalDSL
             return this;
         }
 
-        public SqlBuilderImpl From(string text)
+        public SqlBuilderImpl From(params string[] args)
         {
-            string x = $"FROM dbo.{text} ";
+            string text = string.Join(",", args);
+            string x = $"FROM {text} ";
             query.Append(x);
             return this;
         }
-
         public SqlBuilderImpl WhereIs(string text, string text2)
         {
             string x = $"WHERE {text} = {text2} ";
