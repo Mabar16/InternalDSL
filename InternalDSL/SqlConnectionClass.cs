@@ -19,27 +19,26 @@ namespace InternalDSL
                     $"WHERE {where.Item1} = {where.Item2};";
         }
 
-        public async static void PostgresCreateCommand(string queryString)
+        public static void PostgresCreateCommand(string queryString)
         {
             var connString = "Host=localhost;Port=5435;Username=postgres;Password=Mikoto;Database=postgres";
 
-            await using var conn = new NpgsqlConnection(connString);
-            await conn.OpenAsync();
-
-            await using (var cmd = new NpgsqlCommand("INSERT INTO students (id, name, age, major) VALUES (@id, @n, @a, @m)", conn))
-            {
-                cmd.Parameters.AddWithValue("id", "5");
-                cmd.Parameters.AddWithValue("n", "Jonas");
-                cmd.Parameters.AddWithValue("a", "83");
-                cmd.Parameters.AddWithValue("m", "Pokemon Masters");
-                await cmd.ExecuteNonQueryAsync();
-            }
+            using var conn = new NpgsqlConnection(connString);
+            conn.Open();
 
             // Retrieve all rows
-            await using (var cmd = new NpgsqlCommand("SELECT name FROM students;", conn))
-            await using (var reader = await cmd.ExecuteReaderAsync())
-                while (await reader.ReadAsync())
-                    Console.WriteLine("hi " +reader.GetString(0));
+            using (var cmd = new NpgsqlCommand(@"SELECT age, id, name, major FROM public.students;", conn))
+            using (var reader = cmd.ExecuteReader())
+                while (reader.Read())
+                {
+                    string[] output = new string[reader.FieldCount];
+                    for (int i = 0; i < reader.FieldCount; i++)
+                    {
+                        output[i] = reader.GetValue(i).ToString();
+                    }
+                    Console.WriteLine(string.Join(",", output));
+                }
+                    
 
             Task.WaitAll();
             Console.WriteLine("done");

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using InternalDSL.Sql;
 
 namespace InternalDSL
@@ -7,7 +8,10 @@ namespace InternalDSL
     {
         static void Main(string[] args)
         {
+
+            SqlConnectionClass.PostgresCreateCommand("");
             string connectionString = @"Server=(localdb)\MyInstance;Initial Catalog = Local;Integrated Security=true;";
+            //string connString = "Host=localhost;Port=5435;Username=postgres;Password=Mikoto;Database=postgres";
 
             var builder = new SQLQueryBuilder();
 
