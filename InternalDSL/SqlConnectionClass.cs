@@ -19,15 +19,21 @@ namespace InternalDSL
                     $"WHERE {where.Item1} = {where.Item2};";
         }
 
-        public static void PostgresCreateCommand(string queryString)
+        public static void PerformQuery(bool usePostrgress, string conn, string query)
         {
-            var connString = "Host=localhost;Port=5435;Username=postgres;Password=Mikoto;Database=postgres";
+            if (usePostrgress)
+                PostgresCreateCommand(query, conn);
+            else 
+                ExecuteQuery(query, conn);
+        }
 
+        private static void PostgresCreateCommand(string queryString, string connString)
+        {
             using var conn = new NpgsqlConnection(connString);
             conn.Open();
 
             // Retrieve all rows
-            using (var cmd = new NpgsqlCommand(@"SELECT age, id, name, major FROM public.students;", conn))
+            using (var cmd = new NpgsqlCommand(queryString, conn))
             using (var reader = cmd.ExecuteReader())
                 while (reader.Read())
                 {
@@ -38,13 +44,12 @@ namespace InternalDSL
                     }
                     Console.WriteLine(string.Join(",", output));
                 }
-                    
 
             Task.WaitAll();
             Console.WriteLine("done");
         }
 
-        public static string ExecuteQuery(string queryString, string connectionString)
+        private static string ExecuteQuery(string queryString, string connectionString)
         {
             using (SqlConnection connection = new SqlConnection(
                        connectionString))
