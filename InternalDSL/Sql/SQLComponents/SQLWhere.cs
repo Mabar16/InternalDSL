@@ -1,10 +1,11 @@
-﻿using System;
+﻿using InternalDSL.Sql.SQLComponents;
+using System;
 using System.Linq;
 using System.Text;
 
 namespace InternalDSL.Sql
 {
-    public class SQLWhere
+    public class SQLWhere : SQLClause
     {
         private string content;
 
@@ -16,6 +17,9 @@ namespace InternalDSL.Sql
             {
                 if (args.Length == 0)
                     contentBuilder.Append(string.Empty);
+
+                else if (args.Length == 1 && args[0].Item2.Contains('.'))
+                    contentBuilder.Append($"WHERE {args[0].Item1} = {args[0].Item2} ");
 
                 else if (args.Length == 1)
                     contentBuilder.Append($"WHERE {args[0].Item1} = '{args[0].Item2}' ");

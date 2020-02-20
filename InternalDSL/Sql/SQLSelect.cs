@@ -8,39 +8,29 @@ namespace InternalDSL.Sql
     {
         
         public SQLSelect(params string[] args)
-        {
-            columns = new List<string>();
+        {            
             if (args.Length == 0)
                 columns.Add("*");
             else 
                 Array.ForEach(args, column => columns.Add(column));
         }
-        
+
         public override string FinishQuery()
         {
             StringBuilder sb = new StringBuilder();
 
             string text = string.Join(",", columns);
             string selecText = distinct ? $"SELECT DISTINCT {text}" : $"SELECT {text}";
+            sb.Append(selecText + " ");
 
-            sb.Append(selecText+" ");
-            sb.Append(fromClause + " ");
-            if (whereClause != null)
-                sb.Append(whereClause + " ");
-            if (groupBy != null)
-                sb.Append(groupBy + " ");
-            if (orderBy != null)
-                sb.Append(orderBy + " ");
+            components.ForEach(clause => sb.Append($"{clause} "));
 
             return sb.ToString();
         }
 
         public override AbstractSQLQuery Where(params (string, string)[] args)
         {
-            if (fromClause == null)
-                throw new Exception("FROM must be called before WHERE");
-
-            whereClause = new SQLWhere(fromClause.MulipleTables, args);
+            components.Add(new SQLWhere(fromMultipleTables, args));
             return this;
         }
     }

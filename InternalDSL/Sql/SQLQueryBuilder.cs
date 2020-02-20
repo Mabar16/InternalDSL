@@ -45,6 +45,24 @@ namespace InternalDSL.Sql
             return this;
         }
 
+        public SQLQueryBuilder Join(string table, (string, string) columnsToJoinOn)
+        {
+            queryObject.Join(table, columnsToJoinOn);
+            return this;
+        }
+
+        public SQLQueryBuilder InnerJoin(string table, (string, string) columnsToJoinOn)
+        {
+            queryObject.InnerJoin(table, columnsToJoinOn);
+            return this;
+        }
+
+        public SQLQueryBuilder OuterJoin(string table, (string, string) columnsToJoinOn)
+        {
+            queryObject.OuterJoin(table, columnsToJoinOn);
+            return this;
+        }
+
         public SQLQueryBuilder GroupBy(string column)
         {
             queryObject.GroupBy(column);

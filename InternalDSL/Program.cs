@@ -15,21 +15,29 @@ namespace InternalDSL
 
             var builder = new SQLQueryBuilder();
 
-             var selectQuery = builder.
-                         Select("students.name", "course", "grade", "age", "major").
-                         Distinct().
-                         From("students", "grades").
-                         Where(("students.name","grades.name")).
-                         OrderBy("students.name").
-                         FinishQuery();
-
-            SqlConnectionClass.PerformQuery(usePostgress, connectionString, selectQuery); 
+            /*var selectQuery = builder.
+                        Select("students.name", "course", "grade", "age", "major").
+                        Distinct().
+                        From("students", "grades").
+                        Where(("students.name","grades.name")).
+                        OrderBy("students.name").
+                        FinishQuery();*/
+            var selectQuery = builder.
+                                Select("students.name", "course", "grade", "age", "major").
+                                Distinct().
+                                From("students").
+                                InnerJoin("grades",("students.name","grades.name")).
+                                Where(("students.name", "grades.name")).
+                                OrderBy("students.name").
+                                FinishQuery();
+            Console.WriteLine(selectQuery);
+            SqlConnectionClass.PerformQuery(usePostgress, connectionString, selectQuery);
             Console.WriteLine("\r\n^Before, After ->\r\n");
 
             var updateQuery = builder.
                         Update("students").
                         Set(("age", "99")).
-                        Where(("name","markus")).
+                        Where(("name", "markus")).
                         FinishQuery();
 
             var selectQuery2 = builder.

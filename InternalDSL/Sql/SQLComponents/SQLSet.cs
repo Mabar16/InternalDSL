@@ -1,10 +1,11 @@
-﻿using System;
+﻿using InternalDSL.Sql.SQLComponents;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace InternalDSL.Sql
 {
-    public class SQLSet
+    public class SQLSet : SQLClause
     {
         private Dictionary<string, string> updatekvpairs;
         public SQLSet(params (string, string)[] args)

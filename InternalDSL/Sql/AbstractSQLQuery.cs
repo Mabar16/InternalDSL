@@ -1,5 +1,7 @@
-﻿using System;
+﻿using InternalDSL.Sql.SQLComponents;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace InternalDSL.Sql
@@ -9,10 +11,14 @@ namespace InternalDSL.Sql
 
         protected List<string> columns;
         protected bool distinct;
-        protected string groupBy;
-        protected string orderBy;
-        protected SQLFrom fromClause;
-        protected SQLWhere whereClause;
+        protected bool fromMultipleTables;
+        protected List<SQLClause> components;
+
+        protected AbstractSQLQuery()
+        {
+            components = new List<SQLClause>();
+            columns = new List<string>();
+        }
 
         /// <summary>
         /// Adds a WHERE clause to the current SQL query
@@ -34,19 +40,41 @@ namespace InternalDSL.Sql
         /// <returns></returns>
         public AbstractSQLQuery From(params string[] args)
         {
-            fromClause = new SQLFrom(args);
+            components.Add(new SQLFrom(args));
+            fromMultipleTables = ((SQLFrom)components.Last()).MultipleTables;
             return this;
         }
 
         public AbstractSQLQuery GroupBy(string column)
-        {
-            groupBy = $"GROUP BY {column}";
+        {            
+            components.Add(new SQLGroupBy(column));
             return this;
         }
 
         public AbstractSQLQuery OrderBy(string column)
         {
-            orderBy = $"ORDER BY {column}";
+            components.Add(new SQLOrderBy(column));
+            return this;
+        }
+
+        public AbstractSQLQuery Join(string table, (string, string) columnsToJoinOn, string joinType = null)
+        {
+            if(joinType == null)
+                components.Add(new SQLJoin(table, columnsToJoinOn));
+            else
+                components.Add(new SQLJoin(table, columnsToJoinOn, joinType));
+            return this;
+        }
+
+        public AbstractSQLQuery InnerJoin(string table, (string, string) columnsToJoinOn)
+        {
+            Join(table, columnsToJoinOn, "INNER");
+            return this;
+        }
+
+        public AbstractSQLQuery OuterJoin(string table, (string, string) columnsToJoinOn)
+        {
+            Join(table, columnsToJoinOn, "OUTER");
             return this;
         }
 

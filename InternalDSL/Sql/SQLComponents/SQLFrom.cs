@@ -2,14 +2,15 @@
 using System.Data.SqlClient;
 using System.Linq;
 using System.Collections.Generic;
+using InternalDSL.Sql.SQLComponents;
 
 namespace InternalDSL.Sql
 {
-    public class SQLFrom
+    public class SQLFrom : SQLClause
     {
         private List<string> tables;
         private List<string> aliases;
-        public bool MulipleTables { get; private set; }
+        public bool MultipleTables { get; private set; }
 
         public SQLFrom(params string[] args)
         {
@@ -20,12 +21,12 @@ namespace InternalDSL.Sql
 
             Array.ForEach(args, tableName => tables.Add(tableName));
 
-            MulipleTables = tables.Count > 1 ? true : false;
+            MultipleTables = tables.Count > 1 ? true : false;
         }
 
         public override string ToString()
         {
-            if (!MulipleTables)
+            if (!MultipleTables)
                 return $"FROM {tables.First()}";
             else
             {
