@@ -9,10 +9,9 @@ namespace InternalDSL
         static void Main(string[] args)
         {
 
-            //SqlConnectionClass.PostgresCreateCommand("");
-            //string connectionString = @"Server=(localdb)\MyInstance;Initial Catalog = Local;Integrated Security=true;";
-            bool usePostgress = true;
-            string connectionString = "Host=localhost;Port=5435;Username=postgres;Password=Mikoto;Database=postgres";
+            string connectionString = @"Server=(localdb)\MyInstance;Initial Catalog = Local;Integrated Security=true;";
+            bool usePostgress = false;
+            //string connectionString = "Host=localhost;Port=5435;Username=postgres;Password=Mikoto;Database=postgres";
 
             var builder = new SQLQueryBuilder();
 
@@ -23,15 +22,8 @@ namespace InternalDSL
                          Where(("students.name","grades.name")).
                          OrderBy("students.name").
                          FinishQuery();
-            /*var selectQuery = builder.
-                        Select("name","age", "major").
-                        Distinct().
-                        From("students").
-                        Where(("name", "markus")).
-                        OrderBy("major").
-                        FinishQuery();*/
 
-            SqlConnectionClass.PerformQuery(usePostgress, connectionString, selectQuery); //.ExecuteQuery(selectQuery, connectionString);
+            SqlConnectionClass.PerformQuery(usePostgress, connectionString, selectQuery); 
             Console.WriteLine("\r\n^Before, After ->\r\n");
 
             var updateQuery = builder.
@@ -51,7 +43,7 @@ namespace InternalDSL
             SqlConnectionClass.PerformQuery(usePostgress, connectionString, updateQuery);
             SqlConnectionClass.PerformQuery(usePostgress, connectionString, selectQuery2);
 
-            Console.WriteLine("Press any key to exit");
+            //Console.WriteLine("Press any key to exit");
             //Console.ReadKey();
         }
     }

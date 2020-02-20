@@ -4,27 +4,37 @@ using System.Text;
 
 namespace InternalDSL.Sql
 {
-    public abstract class AbstractSQLQuery :ISQLQuery
+    public abstract class AbstractSQLQuery
     {
 
-        private List<string> columns;
-        private bool distinct;
-        private string groupBy;
-        private string orderBy;
-        private SQLFrom fromClause;
-        private SQLWhere whereClause;
+        protected List<string> columns;
+        protected bool distinct;
+        protected string groupBy;
+        protected string orderBy;
+        protected SQLFrom fromClause;
+        protected SQLWhere whereClause;
 
         /// <summary>
         /// Adds a WHERE clause to the current SQL query
         /// </summary>
         /// <param name="args"></param>
         /// <returns></returns>
-        public AbstractSQLQuery Where(params (string, string)[] args)
-        {
-            if (fromClause == null)
-                throw new Exception("FROM must be called before WHERE");
+        public abstract AbstractSQLQuery Where(params (string, string)[] args);
 
-            whereClause = new SQLWhere(fromClause.MulipleTables, args);
+        public AbstractSQLQuery Distinct()
+        {
+            distinct = true;
+            return this;
+        }
+        
+        /// <summary>
+        /// Adds a FROM clause to the current SQL query
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        public AbstractSQLQuery From(params string[] args)
+        {
+            fromClause = new SQLFrom(args);
             return this;
         }
 
@@ -40,23 +50,6 @@ namespace InternalDSL.Sql
             return this;
         }
 
-        public string FinishQuery()
-        {
-            StringBuilder sb = new StringBuilder();
-
-            string text = string.Join(",", columns);
-            string selecText = distinct ? $"SELECT DISTINCT {text}" : $"SELECT {text}";
-
-            sb.Append(selecText + " ");
-            sb.Append(fromClause + " ");
-            if (whereClause != null)
-                sb.Append(whereClause + " ");
-            if (groupBy != null)
-                sb.Append(groupBy + " ");
-            if (orderBy != null)
-                sb.Append(orderBy + " ");
-
-            return sb.ToString();
-        }
+        public abstract string FinishQuery();
     }
 }

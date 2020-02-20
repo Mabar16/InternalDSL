@@ -7,6 +7,6 @@ namespace InternalDSL
 {
     public interface SqlBuilderInterface
     {
-        SQLSelect Select(params string[] args);
+        SqlBuilderInterface Select(params string[] args);
     }
 }
