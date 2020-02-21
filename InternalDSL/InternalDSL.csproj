@@ -13,5 +13,6 @@
 
   <ItemGroup>
     <Compile Remove="Sql\SqlSelectInterface.cs" />
+    <Compile Remove="DatabaseEnum.cs" />
   </ItemGroup>
 </Project>

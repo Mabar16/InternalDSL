@@ -8,26 +8,18 @@ namespace InternalDSL
     {
         static void Main(string[] args)
         {
-
-            string connectionString = @"Server=(localdb)\MyInstance;Initial Catalog = Local;Integrated Security=true;";
-            bool usePostgress = false;
-            //string connectionString = "Host=localhost;Port=5435;Username=postgres;Password=Mikoto;Database=postgres";
+            //string connectionString = @"Server=(localdb)\MyInstance;Initial Catalog = Local;Integrated Security=true;";
+            bool usePostgress = true;
+            string connectionString = "Host=localhost;Port=5435;Username=postgres;Password=Mikoto;Database=postgres";
 
             var builder = new SQLQueryBuilder();
 
-            /*var selectQuery = builder.
-                        Select("students.name", "course", "grade", "age", "major").
-                        Distinct().
-                        From("students", "grades").
-                        Where(("students.name","grades.name")).
-                        OrderBy("students.name").
-                        FinishQuery();*/
             var selectQuery = builder.
-                                Select("students.name", "course", "grade", "age", "major").
+                                Select("students.name", "age", "major").
                                 Distinct().
                                 From("students").
                                 InnerJoin("grades",("students.name","grades.name")).
-                                Where(("students.name", "grades.name")).
+                                Where("students.name", "grades.name").AND("students.name", "Markus").AND("age","24").
                                 OrderBy("students.name").
                                 FinishQuery();
             Console.WriteLine(selectQuery);
@@ -36,15 +28,15 @@ namespace InternalDSL
 
             var updateQuery = builder.
                         Update("students").
-                        Set(("age", "99")).
-                        Where(("name", "markus")).
+                        Set(("age", "12")).
+                        Where("name", "markus").
                         FinishQuery();
 
             var selectQuery2 = builder.
                         Select("students.name", "course", "grade", "age", "major").
                         Distinct().
                         From("students", "grades").
-                        Where(("students.name", "grades.name")).
+                        Where("students.name", "grades.name").
                         OrderBy("major").
                         FinishQuery();
 

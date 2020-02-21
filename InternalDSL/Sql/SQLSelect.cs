@@ -27,11 +27,11 @@ namespace InternalDSL.Sql
 
             return sb.ToString();
         }
-
-        public override AbstractSQLQuery Where(params (string, string)[] args)
+        /*
+        public override AbstractSQLQuery Where((string, string) condition)
         {
-            components.Add(new SQLWhere(fromMultipleTables, args));
-            return this;
+            
         }
+        */
     }
 }

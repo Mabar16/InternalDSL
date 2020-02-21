@@ -37,11 +37,23 @@ namespace InternalDSL.Sql
         /// <summary>
         /// Adds a WHERE clause to the current SQL query
         /// </summary>
-        /// <param name="args"></param>
+        /// <param name="condition"></param>
         /// <returns></returns>
-        public SQLQueryBuilder Where(params (string, string)[] args)
+        public SQLQueryBuilder Where(string val1, string val2)
         {
-            queryObject.Where(args);
+            queryObject.Where((val1, val2));
+            return this;
+        }
+
+        public SQLQueryBuilder AND(string val1, string val2)
+        {
+            queryObject.AndWhere((val1, val2));
+            return this;
+        }
+
+        public SQLQueryBuilder OR(string val1, string val2)
+        {
+            queryObject.AndWhere((val1, val2));
             return this;
         }
 

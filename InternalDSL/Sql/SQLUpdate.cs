@@ -17,13 +17,14 @@ namespace InternalDSL.Sql
             components.Add(new SQLSet(args));
             return this;
         }
-
-        public override AbstractSQLQuery Where(params (string, string)[] args)
+        /*
+        public override AbstractSQLQuery Where((string, string) condition)
         {
-            components.Add(new SQLWhere(false, args));
+            where = new SQLWhere(condition);
+            components.Add(where);
             return this;
         }
-
+        */
         public override string FinishQuery()
         {
             return $"UPDATE {columns.First()} {string.Join(" ", components)}";

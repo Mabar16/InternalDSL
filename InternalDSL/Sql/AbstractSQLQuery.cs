@@ -13,6 +13,7 @@ namespace InternalDSL.Sql
         protected bool distinct;
         protected bool fromMultipleTables;
         protected List<SQLClause> components;
+        protected SQLWhere where;
 
         protected AbstractSQLQuery()
         {
@@ -23,9 +24,25 @@ namespace InternalDSL.Sql
         /// <summary>
         /// Adds a WHERE clause to the current SQL query
         /// </summary>
-        /// <param name="args"></param>
+        /// <param name="condition"></param>
         /// <returns></returns>
-        public abstract AbstractSQLQuery Where(params (string, string)[] args);
+        public AbstractSQLQuery Where((string, string) condition)
+        {
+            where = new SQLWhere(condition);
+            components.Add(where);
+            return this;
+        }
+        
+
+        public void AndWhere((string, string) condition)
+        {
+            where.NestWhere(condition, "AND");
+        }
+
+        public void OrWhere((string, string) condition)
+        {
+            where.NestWhere(condition, "OR");
+        }
 
         public AbstractSQLQuery Distinct()
         {
