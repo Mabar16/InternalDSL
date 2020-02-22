@@ -36,7 +36,7 @@ ORDER BY students.name
 ```
 
 The test database is depicted here:
-![DataBase](images/TAblesBefore.png)
+![DataBase](images/Database.png)
 
 And Query-1 produces the following result:
 
