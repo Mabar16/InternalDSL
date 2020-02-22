@@ -53,7 +53,7 @@ namespace InternalDSL.Sql
 
         public SQLQueryBuilder OR(string val1, string val2)
         {
-            queryObject.AndWhere((val1, val2));
+            queryObject.OrWhere((val1, val2));
             return this;
         }
 

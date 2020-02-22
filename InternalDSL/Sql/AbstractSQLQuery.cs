@@ -31,8 +31,7 @@ namespace InternalDSL.Sql
             where = new SQLWhere(condition);
             components.Add(where);
             return this;
-        }
-        
+        }        
 
         public void AndWhere((string, string) condition)
         {

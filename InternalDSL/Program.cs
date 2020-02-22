@@ -8,27 +8,27 @@ namespace InternalDSL
     {
         static void Main(string[] args)
         {
-            //string connectionString = @"Server=(localdb)\MyInstance;Initial Catalog = Local;Integrated Security=true;";
-            bool usePostgress = true;
-            string connectionString = "Host=localhost;Port=5435;Username=postgres;Password=Mikoto;Database=postgres";
+            string connectionString = @"Server=(localdb)\MyInstance;Initial Catalog = Local;Integrated Security=true;";
+            bool usePostgress = false;
+            //string connectionString = "Host=localhost;Port=5435;Username=postgres;Password=Mikoto;Database=postgres";
 
             var builder = new SQLQueryBuilder();
 
             var selectQuery = builder.
-                                Select("students.name", "age", "major").
+                                Select("students.name", "age", "major", "course", "grade").
                                 Distinct().
                                 From("students").
                                 InnerJoin("grades",("students.name","grades.name")).
-                                Where("students.name", "grades.name").AND("students.name", "Markus").AND("age","24").
+                                Where("students.name", "grades.name").AND("students.name", "Markus").OR("students.name", "Joji").AND("age", "99").
                                 OrderBy("students.name").
                                 FinishQuery();
-            Console.WriteLine(selectQuery);
+            Console.WriteLine(selectQuery+"\r\n");
             SqlConnectionClass.PerformQuery(usePostgress, connectionString, selectQuery);
             Console.WriteLine("\r\n^Before, After ->\r\n");
 
             var updateQuery = builder.
                         Update("students").
-                        Set(("age", "12")).
+                        Set(("age", "23")).
                         Where("name", "markus").
                         FinishQuery();
 

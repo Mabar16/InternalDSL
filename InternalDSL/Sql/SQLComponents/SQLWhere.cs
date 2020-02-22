@@ -24,23 +24,31 @@ namespace InternalDSL.Sql
 
         public SQLWhere NestWhere((string, string) condition, string logic)
         {
-            nestedWhere = new SQLWhere((condition.Item1, condition.Item2));
-            nestedWhere.logic = logic;
-            return this;
+            if (nestedWhere == null)
+            {
+                nestedWhere = new SQLWhere((condition.Item1, condition.Item2));
+                nestedWhere.logic = logic;
+                return this;
+            }
+            else
+            {
+                nestedWhere.NestWhere(condition, logic);
+                return this;
+            }
         }
 
         private string PrintCondition()
         {
             if (nestedWhere != null)
-                return nestedWhere.PrintCondition();
+                return $"{logic} ({content} {nestedWhere.PrintCondition()})";
             return $"{logic} {content}";
         }
 
         public override string ToString()
         {
             if (nestedWhere != null)
-                return $"WHERE {nestedWhere.PrintCondition()}";
-            return $"WHERE {content.Remove(0, 3)}";
+                return $"WHERE {content} {nestedWhere.PrintCondition()}";
+            return $"WHERE {content}";
         }
     }
 }
