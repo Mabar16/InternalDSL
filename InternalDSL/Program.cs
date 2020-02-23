@@ -8,10 +8,6 @@ namespace InternalDSL
     {
         static void Main(string[] args)
         {
-            string connectionString = @"Server=(localdb)\MyInstance;Initial Catalog = Local;Integrated Security=true;";
-            bool usePostgress = false;
-            //string connectionString = "Host=localhost;Port=5435;Username=postgres;Password=Mikoto;Database=postgres";
-
             var builder = new SQLQueryBuilder();
 
             var selectQuery = builder.
@@ -22,9 +18,9 @@ namespace InternalDSL
                                 Where("students.name", "grades.name").AND("students.name", "Markus").OR("students.name", "Joji").AND("age", "99").
                                 OrderBy("students.name").
                                 FinishQuery();
+
             Console.WriteLine(selectQuery+"\r\n");
-            SqlConnectionClass.PerformQuery(usePostgress, connectionString, selectQuery);
-            Console.WriteLine("\r\n^Before, After ->\r\n");
+            
 
             var updateQuery = builder.
                         Update("students").
@@ -40,11 +36,26 @@ namespace InternalDSL
                         OrderBy("major").
                         FinishQuery();
 
-            SqlConnectionClass.PerformQuery(usePostgress, connectionString, updateQuery);
-            SqlConnectionClass.PerformQuery(usePostgress, connectionString, selectQuery2);
+            Console.WriteLine(updateQuery + "\r\n");            
+            Console.WriteLine(selectQuery2 + "\r\n");
 
-            //Console.WriteLine("Press any key to exit");
-            //Console.ReadKey();
+
+            //string connectionString = @"Server=(localdb)\MyInstance;Initial Catalog = Local;Integrated Security=true;";
+            //bool usePostgress = false;
+            //string connectionString = "Host=localhost;Port=5435;Username=postgres;Password=Mikoto;Database=postgres";
+            //ExecuteQuery(usePostgress, connectionString, updateQuery);
+            //ExecuteQuery(usePostgress, connectionString, selectQuery);
+            //ExecuteQuery(usePostgress, connectionString, selectQuery2);
         }
+
+        /// <summary>
+        /// Requires appropriate database to be setup on host machine. 
+        /// </summary>
+        private static void ExecuteQuery(bool usePostgress, string connectionString, string query)
+        {
+            SqlConnectionClass.PerformQuery(usePostgress, connectionString, query);
+        }
+
+
     }
 }

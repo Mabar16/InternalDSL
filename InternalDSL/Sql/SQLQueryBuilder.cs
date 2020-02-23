@@ -45,12 +45,26 @@ namespace InternalDSL.Sql
             return this;
         }
 
+        /// <summary>
+        /// Nests a where clause using the following pattern:
+        /// Where1 AND (Where2 AND (Where3)) etc.
+        /// </summary>
+        /// <param name="val1"></param>
+        /// <param name="val2"></param>
+        /// <returns></returns>
         public SQLQueryBuilder AND(string val1, string val2)
         {
             queryObject.AndWhere((val1, val2));
             return this;
         }
 
+        /// <summary>
+        /// Nests a where clause using the following pattern:
+        /// Where1 OR (Where2 OR (Where3)) etc.
+        /// </summary>
+        /// <param name="val1"></param>
+        /// <param name="val2"></param>
+        /// <returns></returns>
         public SQLQueryBuilder OR(string val1, string val2)
         {
             queryObject.OrWhere((val1, val2));
