@@ -17,7 +17,7 @@ The structure of the DSL is as follows:
 ```C#
 var builder = new SQLQueryBuilder();
 var selectQuery = builder.
-                    Select("students.name", "grade", "course", "major").
+                    Select("students.name", "age", "major","course", "grade").
                     Distinct().
                     From("students").
                     InnerJoin("grades",("students.name","grades.name")).
