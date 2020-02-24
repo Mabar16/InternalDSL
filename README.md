@@ -28,7 +28,7 @@ var selectQuery = builder.
 and produces the following query (will be refered to as'Query-1'):
 
 ```SQL
-SELECT DISTINCT students.name,age,major 
+SELECT DISTINCT students.name,age,major,course,grade 
 FROM students 
 INNER JOIN grades ON (students.name = grades.name) 
 WHERE students.name = grades.name AND students.name = 'Markus' 
