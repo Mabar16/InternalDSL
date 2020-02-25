@@ -42,7 +42,6 @@ namespace InternalDSL
 
             //string connectionString = @"Server=(localdb)\MyInstance;Initial Catalog = Local;Integrated Security=true;";
             //bool usePostgress = false;
-            //string connectionString = "Host=localhost;Port=5435;Username=postgres;Password=Mikoto;Database=postgres";
             //ExecuteQuery(usePostgress, connectionString, updateQuery);
             //ExecuteQuery(usePostgress, connectionString, selectQuery);
             //ExecuteQuery(usePostgress, connectionString, selectQuery2);
